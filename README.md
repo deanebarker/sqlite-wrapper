@@ -2,13 +2,13 @@
 
 To be clear: _this is not an object-relational mapper (ORM)_. Those tools already exist for SQLite, and this is not one of them.
 
-This is simply a wrapper around SQLite to automate some operations. This library assumes you're fine with SQL in general, and it never attempts to complete hide SQL or its uses. It just makes simple things even simpler.
+This is simply a wrapper around SQLite to automate some operations. This library assumes you're fine with SQL in general, and it never attempts to completely hide SQL or its uses. It just makes simple things even simpler.
 
 For example:
 
 (This code assumes you've installed the `System.Data.SQLite` Nuget package.
 
-```
+```csharp
 // Create a new database, or open an existing database
 // To create it in memory instead, just don't pass anything into the constructor
 var db = new Database(@"C:\friends.db");  
@@ -46,6 +46,9 @@ var myFriendsDataReader = db.Query("SELECT * FROM friends");
 // Remember that every table gets an "id" column automatically, and this will be returned as a long
 var myFriendsDictionary = db.TypedQuery("friends");
 
+var desiredLastName = "Gellar"
+var mySiblingDictionary = db.TypedQuery("friends", "last_name = @last_name", "first_name ASC", new { last_name = desiredLastName });
+
 // Get a scalar value
 var numberOfOldFriends = db.GetValue<int>("SELECT count(*) FROM friends WHERE age = 30");
 );
@@ -62,7 +65,7 @@ A key to understanding this library is that the object representation of a datab
 
 You might open and work with an existing SQLite database created by some other process. If you only work with a single column in a single table, just do this:
 
-```
+```csharp
 var db = new Database(@"C:\existing-database.db");
 db.AddTable(new Table("an-existing-table", new TextColumn("an-existing-column")));
 db["an-existing-table"].AddRecordValues("my value");
@@ -76,7 +79,7 @@ Additionally, some other code somewhere else might create a `Database` object ba
 
 If you're working with an existing database, and you _know_ all your tables and columns already exist, you can flag the `Database` object to not check for them by setting the `TrustBackingDatabase` flag, which would make the code faster in situations where you create the `Database` object often.
 
-```
+```csharp
 var db = new Database("existing-database.db");
 db.TrustBackingDatabase = true;
 db.AddTable(new Table("an-existing-table", new TextColumn("an-existing-column")));
