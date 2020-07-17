@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>DeaneBarker.SqlLite</AssemblyName>
+    <RootNamespace>DeaneBarker.SqlLite</RootNamespace>
+    <Version>1.0.24</Version>
+    <Deterministic>False</Deterministic>
+    <AssemblyVersion>1.0.0.*</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.1" />
+  </ItemGroup>
+
+</Project>
