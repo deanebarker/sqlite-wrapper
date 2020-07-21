@@ -4,6 +4,18 @@ To be clear: _this is not an object-relational mapper (ORM)_. Those tools alread
 
 This is simply a wrapper around SQLite to automate some operations. This library assumes you're fine with SQL in general, and it never attempts to completely hide SQL or its uses. It just makes simple things even simpler.
 
+Someone on Reddit asked why I wrote this, and here's what I told them:
+
+>There are lots of ways to create object-level abstractions to SQLite, but one common theme is that the query logic gets created in C# code...which gets compiled...which means query logic has to be known at compile/build-time.
+>
+>For [a] particular application, I needed to provide SQL at runtime. So the code will compile, begin executing in some persistent process, and await dynamic SQL execution that will only be known at some point while the app is running.
+>
+>What this meant is that query logic encoded/compiled in C# was useless to me, which throws out all the tools that try to do that -- which is most of them.
+>
+>This left me with raw SQL and the tools in System.Data.SQLite. That's a fine library, but it still means you have a lot of rote/repetitive code to write. I started writing some methods to automate some of it, and one thing led to another, and here we are.
+
+So this is just some syntactic sugar around `System.Data.SQLite`.
+
 For example:
 
 (This code assumes you've installed the `System.Data.SQLite` Nuget package.
